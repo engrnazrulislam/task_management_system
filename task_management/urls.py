@@ -21,6 +21,7 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('users/',include('users.urls')),
     # path('',dashboard),
     path('tasks/',include('tasks.urls')), #adding urls of the tasks app
     
