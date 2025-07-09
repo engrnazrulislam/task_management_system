@@ -1,0 +1,142 @@
+{% extends "dashboard/dashboard.html" %}
+{% block title %}User Dashboard{% endblock title %}
+{% block task %}
+<div class="mt-8 mx-auto">
+            <div class="lg:flex lg:justify-between items-top gap-4">
+                <!-- Today's Tasks -->
+                <div class="flex-1 bg-white p-4 rounded-xl shadow-sm">
+                    <span class="text-lg font-bold ">Today's Tasks</span>
+                <!-- Today's Task Items -->
+                    <!-- Complete Project Proposal -->
+                    <div class="flex justify-between items-center pt-3">
+                        <div class="flex justify-start items-center gap-2">
+                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <div><span class="text-sm font-semibold">Complete project proposal</span></div>
+                        </div>
+                        <div><span class="text-sm text-gray-500">High</span></div>
+                    </div>
+                    <!-- Review Team Updates -->
+                    <div class="flex justify-between items-center pt-3">
+                        <div class="flex justify-start items-center gap-2">
+                            <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                            <div><span class="text-sm font-semibold text-gray-700">Review team updates</span></div>
+                        </div>
+                        <div><span class="text-sm text-gray-500">Normal</span></div>
+                    </div>
+                    <!-- Prepare for client meeting -->
+                    <div class="flex justify-between items-center pt-3">
+                        <div class="flex justify-start items-center gap-2">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                            <div><span class="text-sm font-semibold text-gray-700">Review team updates</span></div>
+                        </div>
+                        <div><span class="text-sm text-gray-500">Low</span></div>
+                    </div>
+                </div>
+                <!-- All Tasks -->
+                <div class=" flex-1 bg-white p-4 rounded-xl shadow-sm">
+                    <span class="text-lg font-bold ">All Tasks</span>
+                    <div class="grid grid-cols-4 justify-center p-4">
+                        <div class="text-sm text-gray-500 font-semibold">TASK TABLE</div>
+                        <div class="text-sm text-gray-500 font-semibold">PRIORITY</div>
+                        <div class="text-sm text-gray-500 font-semibold">TEAM</div>
+                        <div class="text-sm text-gray-500 font-semibold">CREATED AT</div>
+                    </div>
+                    <!-- Task Items -->
+                    <div class="grid grid-cols-4 justify-center items-center p-4">
+                        <div class="flex justify-start items-center gap-2">
+                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <div><span class="text-sm font-semibold">Test Low Task</span></div>
+                        </div>
+                        <div>
+                            <div class="rounded-full bg-blue-100 w-16 h-8 flex justify-center items-center">
+                                <span class="text-sm text-purple-500">Low</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex -space-x-3">
+                                <div
+                                    class="w-10 h-10 bg-blue-500 rounded-full border-3 border-white flex justify-center items-center">
+                                    <span class="text-sm font-semibold text-white">CA</span>
+                                </div>
+                                <div
+                                    class="w-10 h-10 bg-green-500 rounded-full border-3 border-white flex justify-center items-center">
+                                    <span class="text-sm font-semibold text-white">JS</span>
+                                </div>
+                                <div
+                                    class="w-10 h-10 bg-orange-500 rounded-full border-3 border-white flex justify-center items-center">
+                                    <span class="text-sm font-semibold text-white">PY</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-500 font-semibold">9 month ago</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-4 justify-center items-center p-4">
+                        <div class="flex justify-start items-center gap-2">
+                            <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                            <div><span class="text-sm font-semibold">Test task</span></div>
+                        </div>
+                        <div>
+                            <div class="rounded-full bg-blue-100 w-16 h-8 flex justify-center items-center">
+                                <span class="text-sm text-gray-500">Normal</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex -space-x-3">
+                                <div
+                                    class="w-10 h-10 bg-yellow-500 rounded-full border-3 border-white flex justify-center items-center">
+                                    <span class="text-sm font-semibold text-white">TS</span>
+                                </div>
+                                <div
+                                    class="w-10 h-10 bg-pink-500 rounded-full border-3 border-white flex justify-center items-center">
+                                    <span class="text-sm font-semibold text-white">CS</span>
+                                </div>
+                                <div
+                                    class="w-10 h-10 bg-blue-500 rounded-full border-3 border-white flex justify-center items-center">
+                                    <span class="text-sm font-semibold text-white">DS</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-500 font-semibold">9 month ago</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-4 justify-center items-center p-4">
+                        <div class="flex justify-start items-center gap-2">
+                            <div class="w-2 h-2 bg-red-500 rounded-full"></div>
+                            <div><span class="text-sm font-semibold">Test task</span></div>
+                        </div>
+                        <div>
+                            <div class="rounded-full bg-red-100 w-16 h-8 flex justify-center items-center">
+                                <span class="text-sm text-red-400">High</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex -space-x-3">
+                                <div
+                                    class="w-10 h-10 bg-red-500 rounded-full border-3 border-white flex justify-center items-center">
+                                    <span class="text-sm font-semibold text-white">PK</span>
+                                </div>
+                                <div
+                                    class="w-10 h-10 bg-green-500 rounded-full border-3 border-white flex justify-center items-center">
+                                    <span class="text-sm font-semibold text-white">BD</span>
+                                </div>
+                                <div
+                                    class="w-10 h-10 bg-blue-500 rounded-full border-3 border-white flex justify-center items-center">
+                                    <span class="text-sm font-semibold text-white">DR</span>
+                                </div>
+                                <div
+                                    class="w-10 h-10 bg-yellow-500 rounded-full border-3 border-white flex justify-center items-center">
+                                    <span class="text-sm font-semibold text-white">CS</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-500 font-semibold">9 month ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock task %}

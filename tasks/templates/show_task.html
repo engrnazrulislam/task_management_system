@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href='{% static "css/output.css" %}'>
+    <title>Show Task</title>
+</head>
+<body>
+    <div class="mx-auto p-10 w-9/10">
+       {% comment %} <ul class="list-disc border-2">
+            {% for project in tasks %}
+            <li class="">
+                {% for task in project.projects.all %}
+                <div>{{task.title}}</div>
+                {% endfor %}
+            </li>
+            {% endfor %}
+        </ul>  {% endcomment %}
+        {% comment %} <ul class="list-disc">
+        {% for project in tasks %}
+            <li><span class="text-xl font-weight-600">{{project.name}}</span>
+            {% for project in project.projects.all %}
+            <ul class="list-[upper-roman]">
+            <li>{{project.title}}</li>
+            </ul>
+            {% endfor %}
+            </li>
+        {% endfor %}
+        </ul> {% endcomment %}
+
+        {% comment %} <p>{{task_count.num_task}}</p> {% endcomment %}
+         <ul class="list-disc list-inside">
+         {% for project in projects %}
+         <li>
+            <p><span>{{project.name}}</span>
+            <span>{{project.num_task}}</span></p>
+         </li>
+         {% endfor %}
+         </ul>
+    </div>
+</body>
+</html>

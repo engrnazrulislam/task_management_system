@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href='{% static "css/style.css" %}'>
+    <title>Test Static CSS</title>
+</head>
+<body>
+    <h1 class="red-bg">Welcome to test static color</h1>
+    <img width="50%%" src="{% static 'images/mml.jpg' %}" alt="">
+     {% with count=0 %}
+    {% for student in students %}
+        {% if student != 'nilu' %}
+            <p>{{student}}</p>
+            <p>{{count|add:2}}</p>
+        {% endif %}
+        
+    {% endfor %}
+    {% endwith %}
+
+</body>
+</html>

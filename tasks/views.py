@@ -1,0 +1,213 @@
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from tasks.forms import TaskModelForm, TaskDetailModelForm
+from tasks.models import Employee, Task, TaskDetail, Project
+from datetime import date
+from django.db.models import Q, Count, Max, Min, Avg
+from django.contrib import messages
+# Create your views here.
+def dashboard(request):
+    
+    return render(request,'dashboard/dashboard.html')
+
+def manager_dashboard(request):
+    tasks = Task.objects.select_related('taskDetails').prefetch_related('assigned_to').all()
+    # Getting task count
+    # total_task = tasks.count()
+    # completed_task = Task.objects.filter(status="COMPLETED").count()
+    # in_progress_task = Task.objects.filter(status="IN_PROGRESS").count()
+    # pending_task = Task.objects.filter(status="PENDING").count()
+
+    counts = Task.objects.aggregate(
+        total=Count('id'),
+        completed = Count('id', filter=Q(status="COMPLETED")),
+        in_progress = Count('id',filter=Q(status = "IN_PROGRESS")),
+        pending = Count('id', filter=Q(status="PENDING"))
+    )
+    
+    # Retrieve Data based on criteria
+
+    # get data from the url
+    type = request.GET.get('type','all')
+
+    # base query
+    base_query = Task.objects.select_related('taskDetails').prefetch_related('assigned_to')
+
+    #condition to retrieve data by url type
+    if type == "completed":
+        tasks = base_query.filter(status="COMPLETED")
+    elif type == "in_progress":
+        tasks = base_query.filter(status="IN_PROGRESS")
+    elif type == "pending":
+        tasks = base_query.filter(status="PENDING")
+    elif type == "all" :
+        base_query.all()
+
+    context ={
+        "tasks": tasks,
+        "counts": counts
+    }
+    return render(request,'dashboard/manager_dashboard.html',context)
+
+# CRUD
+# C=CREATE
+# R = READ
+# U = UPDATE
+# D = DELETE
+
+
+def user_dashboard(request):
+    return render(request,'dashboard/user_dashboard.html')
+
+def test(request):
+    students=['Md. Nazrul islam', 'Abrar Hamim Sowad','Ummul Mumenin Hafsa']
+    context={
+        'students': students
+    }
+    return render(request,'test_static/test.html',context)
+
+def create_task(request):
+    employees=Employee.objects.all()
+    task_form = TaskModelForm() # For GET
+    task_detail_form = TaskDetailModelForm() # GET operation
+
+    if request.method == 'POST':
+        # form = TaskForm(request.POST, employees=employees) # For Django Basic Form POST
+        task_form = TaskModelForm(request.POST) # For Django Model Form
+        task_detail_form = TaskDetailModelForm(request.POST)
+        if task_form.is_valid() and task_detail_form.is_valid():
+            """ For Django Model Form """
+            task = task_form.save()
+            task_detail = task_detail_form.save(commit=False)
+            task_detail.task = task
+            task_detail.save()
+            messages.success(request,'Task Created Successfully')
+            return redirect('create-task')
+            # return render(request, 'test_form.html', {"task_form":task_form,"task_detail_form":task_detail_form,"message":"Data is successfully added"})
+            """ For Django Basic Form  Data"""
+            # data = form.cleaned_data
+            # title = data.get('title')
+            # description = data.get('description')
+            # due_date = data.get('due_date')
+            # assigned_to = data.get('assigned_to')
+
+            # task=Task.objects.create(title=title, description=description, due_date=due_date)
+
+            # # Assign employee to task
+            # for emp_id in assigned_to:
+            #     employee = Employee.objects.get(id=emp_id)
+            #     task.assigned_to.add(employee)
+            
+            # return HttpResponse('Task Added Successfully')
+
+    context={
+        "task_form": task_form,
+        "task_detail_form": task_detail_form
+    }
+    return render(request,'test_form.html',context)
+
+def update_task(request, id):
+    # employees=Employee.objects.all()
+    task = Task.objects.get(id=id)
+    task_form = TaskModelForm(instance=task) # For GET
+    if task.taskDetails:
+        task_detail_form = TaskDetailModelForm(instance=task.taskDetails) # GET operation
+
+    if request.method == 'POST':
+        # form = TaskForm(request.POST, employees=employees) # For Django Basic Form POST
+        task_form = TaskModelForm(request.POST, instance=task) # For Django Model Form
+        task_detail_form = TaskDetailModelForm(request.POST, instance=task.taskDetails)
+        if task_form.is_valid() and task_detail_form.is_valid():
+            """ For Django Model Form """
+            task = task_form.save()
+            task_detail = task_detail_form.save(commit=False)
+            task_detail.task = task
+            task_detail.save()
+            messages.success(request,'Task Updated Successfully')
+            return redirect('update-task',id)
+            # return render(request, 'test_form.html', {"task_form":task_form,"task_detail_form":task_detail_form,"message":"Data is successfully added"})
+            """ For Django Basic Form  Data"""
+            # data = form.cleaned_data
+            # title = data.get('title')
+            # description = data.get('description')
+            # due_date = data.get('due_date')
+            # assigned_to = data.get('assigned_to')
+
+            # task=Task.objects.create(title=title, description=description, due_date=due_date)
+
+            # # Assign employee to task
+            # for emp_id in assigned_to:
+            #     employee = Employee.objects.get(id=emp_id)
+            #     task.assigned_to.add(employee)
+            
+            # return HttpResponse('Task Added Successfully')
+
+    context={
+        "task_form": task_form,
+        "task_detail_form": task_detail_form
+    }
+    return render(request,'test_form.html',context)
+
+def delete_task(request, id):
+    if request.method == "POST":
+        task = Task.objects.get(id=id)
+        task.delete()
+        messages.success(request,"Task is deleted successfully")
+        
+        return redirect('manager_dashboard')
+
+
+def view_task(request):
+    # Retrieve all data of Task model
+    # tasks=Task.objects.all()
+
+    # Retrieve specific data get by id
+    # task_3=Task.objects.get(id=1)
+
+    # Retrieve specific data get by first
+    # task_4=Task.objects.first()
+
+    # Retrieve task details by primary key (pk)
+    # task_5 = Task.objects.get(pk=1)
+    
+    # return render (request,'show_task.html',{'tasks':tasks, 'task_3':task_3, 'task_4':task_4, 'task_5': task_5})
+
+    # Get specific data by filtering
+    # tasks=Task.objects.filter(status='PENDING')
+
+    # show the task by
+    # tasks = Task.objects.filter(due_date=date.today())
+
+    """ Show the task which priority is not low"""
+    # tasks=TaskDetail.objects.exclude(priority="L")
+
+    """ Show the task which priority is not high"""
+    # tasks=TaskDetail.objects.exclude(priority="H")
+
+    """Show the task that contain word 'paper' and status PENDING """
+    # tasks=Task.objects.filter(title__icontains = "p", status="PENDING")
+    
+    """Show the task that contains which are pending or in-progress"""
+    # tasks=Task.objects.filter(Q(status="PENDING")|Q(status="IN_PROGRESS"))
+    
+    # tasks=Task.objects.filter(status="aldfjasldfk").exists()
+
+
+    """ select__related (ForeignKey, OneToOneField)"""
+    # tasks = Task.objects.all()
+    # tasks = Task.objects.select_related('details').all()
+    # tasks = TaskDetail.objects.select_related('task').all()
+    # tasks = Task.objects.select_related('project').all()
+
+    """ Prefetch__related. It's works for (Foreign Key, ManyToMany)"""
+    # tasks = Project.objects.prefetch_related('projects').all()
+    # return render(request,'show_task.html',{'tasks':tasks})
+
+    """Aggregate Function"""
+    # task_count = Task.objects.aggregate(num_task=Count('id'))
+    # return render(request,'show_task.html',{'task_count':task_count})
+
+    projects=Project.objects.annotate(num_task=Count('tasks')).order_by('num_task')
+    return render(request,'show_task.html',{'projects':projects})
+
+
