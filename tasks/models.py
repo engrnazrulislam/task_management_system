@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class Employee(models.Model):
     name = models.CharField(max_length=100)
@@ -75,3 +76,5 @@ class Project(models.Model):
 # many to one
 # task = one task is perform by many people
 # employee = one employee perform too many task.
+
+#

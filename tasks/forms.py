@@ -20,6 +20,11 @@ from tasks.models import Task, TaskDetail
 
 """Form Mixing"""
 class StyleFormMixing:
+
+    def __init__(self,*args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.apply_styled_widgets()
+
     """ Mixing to apply style to Form field """
     default_classes = "w-full border-2 rounded-lg"
 
@@ -80,15 +85,8 @@ class TaskModelForm(StyleFormMixing, forms.ModelForm):
         #     })
         # } 
 
-    def __init__(self,*args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.apply_styled_widgets()
 
 class TaskDetailModelForm(StyleFormMixing, forms.ModelForm):
     class Meta:
         model =  TaskDetail
         fields = ['priority','notes']
-
-    def __init__(self,*args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.apply_styled_widgets()

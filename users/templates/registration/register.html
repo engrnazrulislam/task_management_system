@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication</title>
+    <link rel="stylesheet" href="{% static "css/output.css" %}">
+</head>
+<body>
+    <h1>Welcome to Users Authentication System</h1>
+    <div>
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                {{error}}
+            {% endfor %}
+        {% endif %}
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% for field in form %}         
+            <p>
+                {% comment %} {{field}} for one line display {% endcomment %}
+                 {% comment %} If we want block display we use {% endcomment %}
+                <label for="{{field.id_for_label}}">{{field.label}}</label>
+                {{field}}
+                {% if field.errors %}
+                    <ul>
+                    {% for error in field.errors %}
+                        <li>{{error}}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </p>
+            {% endfor %}
+            <button type = "submit">Sign-up</button>
+        </form>
+    </div>
+</body>
+</html>

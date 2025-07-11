@@ -18,10 +18,12 @@ from django.contrib import admin
 from django.urls import path,include
 from tasks.views import dashboard
 from debug_toolbar.toolbar import debug_toolbar_urls
+from core.views import home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('',dashboard),
+    path('users/',include('users.urls')),
+    path('',home,name='home'),
     path('tasks/',include('tasks.urls')), #adding urls of the tasks app
     
 ]+ debug_toolbar_urls()
