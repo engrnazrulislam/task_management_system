@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+from decouple import config
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-81aybv@3wxg_%7tcd(_%pv2jma7_^*em6n)inw-$-^)kzi!=mi'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -90,11 +90,11 @@ WSGI_APPLICATION = 'task_management.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'task_managements',
-        'USER': 'postgres',
-        'PASSWORD': 'django',
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'NAME': config('DB_NAME',default=''),
+        'USER': config('DB_USER',default=''),
+        'PASSWORD': config('DB_PASSWORD',default=''),
+        'HOST': config('DB_HOST',default='localhost'),
+        'PORT': config('DB_PORT')
     }
 }
 
@@ -148,9 +148,9 @@ STATICFILES_DIRS=[
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Use SMTP backend for sending emails
-EMAIL_HOST = 'smtp.example.com'  # Replace with your email provider's SMTP host
-EMAIL_PORT = 587  # Common port for TLS (587) or SSL (465)
-EMAIL_USE_TLS = True  # Set to True if your SMTP server requires TLS encryption
-EMAIL_HOST_USER = 'tscrpbl@gmail.com'  # Your email address for authentication
-EMAIL_HOST_PASSWORD = 'owdx gglp esjs edyt'  # Your email password or app-specific password
+EMAIL_HOST = config('EMAIL_HOST')  # Replace with your email provider's SMTP host
+EMAIL_PORT = config('EMAIL_PORT')  # Common port for TLS (587) or SSL (465)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')  # Set to True if your SMTP server requires TLS encryption
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')  # Your email address for authentication
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  # Your email password or app-specific password
 #DEFAULT_FROM_EMAIL = EMAIL_HOST_USER # Optional: Sets the default 'from' email address for outgoing emails
