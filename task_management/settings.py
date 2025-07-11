@@ -154,3 +154,4 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS')  # Set to True if your SMTP server requi
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')  # Your email address for authentication
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  # Your email password or app-specific password
 #DEFAULT_FROM_EMAIL = EMAIL_HOST_USER # Optional: Sets the default 'from' email address for outgoing emails
+FRONTEND_URL='http://127.0.0.1:8000'

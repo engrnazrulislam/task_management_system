@@ -38,17 +38,17 @@ class CustomRegistrationForm(StyleFormMixing,forms.ModelForm):
             errors.append('Password must be 8 character long')
          # Home work implement regular expression
 
-        if re.search(r'[A-Z]',password1):
-            errors.append('Password does not contain any capital letter')
+        # if re.search(r'[A-Z]',password1):
+        #     errors.append('Password does not contain any capital letter')
 
-        if re.search(r'[a-z]',password1):
-            errors.append('Password does not contain small letter')
+        # if re.search(r'[a-z]',password1):
+        #     errors.append('Password does not contain small letter')
 
-        if re.search(r'[0-9]',password1):
-            errors.append('Password does not contain any number')
+        # if re.search(r'[0-9]',password1):
+        #     errors.append('Password does not contain any number')
         
-        if re.search(r'[@*#$+=]',password1):
-            errors.append('Password does not contain any special character')
+        # if re.search(r'[@*#$+=]',password1):
+        #     errors.append('Password does not contain any special character')
                 
         if errors:
             raise forms.ValidationError(errors)
