@@ -1,7 +1,9 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
+from django.contrib.auth.forms import AuthenticationForm
 import re
+from tasks.forms import StyleFormMixing
 
 class RegisterForm(UserCreationForm):
     class Meta:
@@ -17,7 +19,7 @@ class RegisterForm(UserCreationForm):
             self.fields[fieldname].help_text = None
         
 # Customized Registration Forms:
-class CustomRegistrationForm(forms.ModelForm):
+class CustomRegistrationForm(StyleFormMixing,forms.ModelForm):
     password1 = forms.CharField(widget=forms.PasswordInput) # Here is not found any password field. 
     #So we use wigets which is used to unreadable password
     confirmed_password = forms.CharField(widget=forms.PasswordInput)
@@ -37,23 +39,17 @@ class CustomRegistrationForm(forms.ModelForm):
          # Home work implement regular expression
 
         if re.search(r'[A-Z]',password1):
-            raise forms.ValidationError('Password does not contain any capital letter')
+            errors.append('Password does not contain any capital letter')
 
         if re.search(r'[a-z]',password1):
-            raise forms.ValidationError('Password does not contain small letter')
+            errors.append('Password does not contain small letter')
 
         if re.search(r'[0-9]',password1):
-            raise forms.ValidationError('Password does not contain any number')
+            errors.append('Password does not contain any number')
         
         if re.search(r'[@*#$+=]',password1):
-            raise forms.ValidationError('Password does not contain any special character')
-        
-
-
-
-        if "abc" not in password1:
-            errors.append('Password not contain abc')
-        
+            errors.append('Password does not contain any special character')
+                
         if errors:
             raise forms.ValidationError(errors)
         
@@ -83,7 +79,9 @@ class CustomRegistrationForm(forms.ModelForm):
     
 
    
-
+class LoginForm(StyleFormMixing, AuthenticationForm):
+    def __init__(self, *arg, **kwargs):
+        super().__init__(*arg, **kwargs)
 
     
 
