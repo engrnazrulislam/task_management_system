@@ -5,7 +5,13 @@ from tasks.models import Employee, Task, TaskDetail, Project
 from datetime import date
 from django.db.models import Q, Count, Max, Min, Avg
 from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test
 # Create your views here.
+
+def is_Manager(user):
+    return user.groups.filter(name='Manager').exist()
+
+
 def dashboard(request):
     
     return render(request,'dashboard/dashboard.html')
@@ -55,16 +61,12 @@ def manager_dashboard(request):
 # U = UPDATE
 # D = DELETE
 
+def is_Employee(user):
+    return user.groups.filter(name='Employee').exists()
 
-def user_dashboard(request):
+
+def employee_dashboard(request):
     return render(request,'dashboard/user_dashboard.html')
-
-def test(request):
-    students=['Md. Nazrul islam', 'Abrar Hamim Sowad','Ummul Mumenin Hafsa']
-    context={
-        'students': students
-    }
-    return render(request,'test_static/test.html',context)
 
 def create_task(request):
     employees=Employee.objects.all()
