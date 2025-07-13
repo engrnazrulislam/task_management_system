@@ -5,11 +5,20 @@ from tasks.models import Employee, Task, TaskDetail, Project
 from datetime import date
 from django.db.models import Q, Count, Max, Min, Avg
 from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test, login_required, permission_required
 # Create your views here.
+
+def is_Manager(user):
+    return user.groups.filter(name='Manager').exists()
+
+def is_Employee(user):
+    return user.groups.filter(name='Employee').exists()
+
+
 def dashboard(request):
-    
     return render(request,'dashboard/dashboard.html')
 
+@user_passes_test(is_Manager, login_url='no_permission')
 def manager_dashboard(request):
     tasks = Task.objects.select_related('taskDetails').prefetch_related('assigned_to').all()
     # Getting task count
@@ -55,17 +64,12 @@ def manager_dashboard(request):
 # U = UPDATE
 # D = DELETE
 
-
-def user_dashboard(request):
+@user_passes_test(is_Employee, login_url='no_permission')
+def employee_dashboard(request):
     return render(request,'dashboard/user_dashboard.html')
 
-def test(request):
-    students=['Md. Nazrul islam', 'Abrar Hamim Sowad','Ummul Mumenin Hafsa']
-    context={
-        'students': students
-    }
-    return render(request,'test_static/test.html',context)
-
+@login_required
+@permission_required('tasks.add_task', login_url = 'no_permission')
 def create_task(request):
     employees=Employee.objects.all()
     task_form = TaskModelForm() # For GET
@@ -82,7 +86,7 @@ def create_task(request):
             task_detail.task = task
             task_detail.save()
             messages.success(request,'Task Created Successfully')
-            return redirect('create-task')
+            return redirect('create_task')
             # return render(request, 'test_form.html', {"task_form":task_form,"task_detail_form":task_detail_form,"message":"Data is successfully added"})
             """ For Django Basic Form  Data"""
             # data = form.cleaned_data
@@ -106,6 +110,8 @@ def create_task(request):
     }
     return render(request,'test_form.html',context)
 
+@login_required
+@permission_required('tasks.change_task', login_url='no_permission')
 def update_task(request, id):
     # employees=Employee.objects.all()
     task = Task.objects.get(id=id)
@@ -124,7 +130,7 @@ def update_task(request, id):
             task_detail.task = task
             task_detail.save()
             messages.success(request,'Task Updated Successfully')
-            return redirect('update-task',id)
+            return redirect('update_task',id)
             # return render(request, 'test_form.html', {"task_form":task_form,"task_detail_form":task_detail_form,"message":"Data is successfully added"})
             """ For Django Basic Form  Data"""
             # data = form.cleaned_data
@@ -148,6 +154,8 @@ def update_task(request, id):
     }
     return render(request,'test_form.html',context)
 
+@login_required
+@permission_required('tasks.delete_task', login_url='no_permission')
 def delete_task(request, id):
     if request.method == "POST":
         task = Task.objects.get(id=id)
@@ -156,7 +164,8 @@ def delete_task(request, id):
         
         return redirect('manager_dashboard')
 
-
+@login_required
+@permission_required('tasks.view_task', login_url='no_permission')
 def view_task(request):
     # Retrieve all data of Task model
     # tasks=Task.objects.all()
