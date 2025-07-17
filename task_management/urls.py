@@ -18,13 +18,12 @@ from django.contrib import admin
 from django.urls import path,include
 from tasks.views import dashboard
 from debug_toolbar.toolbar import debug_toolbar_urls
-from core.views import home, no_permission
+from core.views import no_permission
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/',include('users.urls')),
-    path('',home,name='home'),
-    path('no_permission/',no_permission,name='no_permission'),
+    path('',include('core.urls')),
     path('tasks/',include('tasks.urls')), #adding urls of the tasks app
     
 ]+ debug_toolbar_urls()

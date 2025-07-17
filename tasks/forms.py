@@ -26,7 +26,7 @@ class StyleFormMixing:
         self.apply_styled_widgets()
 
     """ Mixing to apply style to Form field """
-    default_classes = "w-full border-2 rounded-lg"
+    default_classes = "w-full border-2 rounded-lg p-2"
 
     def apply_styled_widgets(self):
         for field_name, field in self.fields.items():
