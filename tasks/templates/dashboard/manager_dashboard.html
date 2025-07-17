@@ -17,8 +17,8 @@
           <div class="grid grid-cols-4 justify-center items-center p-4">
             <div class="flex justify-start items-center gap-2">
               <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
-              <div>
-                <span class=''>{{task.title}}</span>
+              <div class="flex justify-start items-center gap-2">
+                <a href="{% url 'task_details' task.id %}">{{task.title}}</a>
                 <a href='{% url "update_task" task.id %}' class='px-2 py-1 bg-green-500'>Edit</a>
                 <form action="{% url "delete_task" task.id %}" method="POST">
                   {% csrf_token %}
@@ -39,8 +39,9 @@
                 {% for emp in task.assigned_to.all %}
                  
                 <div class="w-10 h-10 bg-blue-500 rounded-full border-3 border-white flex justify-center items-center">
-                  <span class="text-sm font-semibold text-white">{{emp.name|slice:":2"}}</span>
+                  <span class="text-sm font-semibold text-white">{{emp.first_name | slice:':1'}}</span>
                 </div>
+
                 {% endfor %}
               </div>
             </div>
@@ -56,123 +57,3 @@
       </div>
 
       {% endblock task %}
-
-      {% comment %} 
-      <div class="grid grid-cols-4 justify-center items-center p-4">
-            <div class="flex justify-start items-center gap-2">
-              <div class="w-2 h-2 bg-red-500 rounded-full"></div>
-              <div><span>Test High Task</span></div>
-            </div>
-            <div>
-              <div
-                class="rounded-full bg-blue-100 w-16 h-8 flex justify-center items-center"
-              >
-                <span class="text-sm text-red-500">High</span>
-              </div>
-            </div>
-            <div>
-              <div class="flex -space-x-3">
-                <div
-                  class="w-10 h-10 bg-yellow-500 rounded-full border-3 border-white flex justify-center items-center"
-                >
-                  <span class="text-sm font-semibold text-white">TS</span>
-                </div>
-                <div
-                  class="w-10 h-10 bg-pink-500 rounded-full border-3 border-white flex justify-center items-center"
-                >
-                  <span class="text-sm font-semibold text-white">CS</span>
-                </div>
-                <div
-                  class="w-10 h-10 bg-blue-500 rounded-full border-3 border-white flex justify-center items-center"
-                >
-                  <span class="text-sm font-semibold text-white">DS</span>
-                </div>
-              </div>
-            </div>
-            <div>
-              <span class="text-sm text-gray-500 font-semibold"
-                >9 month ago</span
-              >
-            </div>
-          </div>
-          <div class="grid grid-cols-4 justify-center items-center p-4">
-            <div class="flex justify-start items-center gap-2">
-              <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-              <div><span>Test Medium Task</span></div>
-            </div>
-            <div>
-              <div
-                class="rounded-full bg-blue-100 w-16 h-8 flex justify-center items-center"
-              >
-                <span class="text-sm text-green-500">Medium</span>
-              </div>
-            </div>
-            <div>
-              <div class="flex -space-x-3">
-                <div
-                  class="w-10 h-10 bg-red-500 rounded-full border-3 border-white flex justify-center items-center"
-                >
-                  <span class="text-sm font-semibold text-white">PK</span>
-                </div>
-                <div
-                  class="w-10 h-10 bg-green-500 rounded-full border-3 border-white flex justify-center items-center"
-                >
-                  <span class="text-sm font-semibold text-white">BD</span>
-                </div>
-                <div
-                  class="w-10 h-10 bg-blue-500 rounded-full border-3 border-white flex justify-center items-center"
-                >
-                  <span class="text-sm font-semibold text-white">DR</span>
-                </div>
-                <div
-                  class="w-10 h-10 bg-yellow-500 rounded-full border-3 border-white flex justify-center items-center"
-                >
-                  <span class="text-sm font-semibold text-white">CS</span>
-                </div>
-              </div>
-            </div>
-            <div>
-              <span class="text-sm text-gray-500 font-semibold"
-                >9 month ago</span
-              >
-            </div>
-          </div>
-          <div class="grid grid-cols-4 justify-center items-center p-4">
-            <div class="flex justify-start items-center gap-2">
-              <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
-              <div><span>Test Low Task</span></div>
-            </div>
-            <div>
-              <div
-                class="rounded-full bg-blue-100 w-16 h-8 flex justify-center items-center"
-              >
-                <span class="text-sm text-gray-500">Low</span>
-              </div>
-            </div>
-            <div>
-              <div class="flex -space-x-3">
-                <div
-                  class="w-10 h-10 bg-blue-500 rounded-full border-3 border-white flex justify-center items-center"
-                >
-                  <span class="text-sm font-semibold text-white">CA</span>
-                </div>
-                <div
-                  class="w-10 h-10 bg-green-500 rounded-full border-3 border-white flex justify-center items-center"
-                >
-                  <span class="text-sm font-semibold text-white">CA</span>
-                </div>
-                <div
-                  class="w-10 h-10 bg-red-500 rounded-full border-3 border-white flex justify-center items-center"
-                >
-                  <span class="text-sm font-semibold text-white">CA</span>
-                </div>
-              </div>
-            </div>
-            <div>
-              <span class="text-sm text-gray-500 font-semibold"
-                >9 month ago</span
-              >
-            </div>
-          </div>
-      
-      {% endcomment %}

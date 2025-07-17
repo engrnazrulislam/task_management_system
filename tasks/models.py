@@ -1,13 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # Create your models here.
-class Employee(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
+# class Employee(models.Model):
+#     name = models.CharField(max_length=100)
+#     email = models.EmailField(unique=True)
 
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
 
 
 class Task(models.Model):
@@ -26,14 +27,15 @@ class Task(models.Model):
         related_name="tasks"
         )
     assigned_to = models.ManyToManyField(
-        Employee,
+        # Employee,
+        User,
         related_name='tasks'
         )
     title=models.CharField(max_length=250)
     description=models.TextField()
     due_date=models.DateField()
     status = models.CharField(max_length=15,choices=STATUS_CHOICES,default=PENDING)
-    is_completed=models.BooleanField(default=False)
+    # is_completed=models.BooleanField(default=False)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
     # taskDetails
@@ -51,6 +53,8 @@ class TaskDetail(models.Model):
         (MEDIUM,'Medium'),
         (LOW,'Low')
     )
+    # for work with images
+    asset = models.ImageField(upload_to='asset_tasks', blank=True, null=True)
     # assigned_to=models.CharField(max_length=250)
     priority=models.CharField(max_length=1,choices=PRIORITY_OPTIONS,default=LOW)
     # std_id = models.CharField(max_length=200, primary_key=True) # define customized primary key

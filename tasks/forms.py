@@ -60,7 +60,7 @@ class TaskModelForm(StyleFormMixing, forms.ModelForm):
     class Meta:
         model = Task
         # fields = '__all__'
-        fields = ['title','description','due_date','assigned_to']
+        fields = ['title','description','due_date','assigned_to'] #add 'assigned_to'
         # exclude = ['project','is_completed','created_at','updated_at']
         # define widgets which is not 
         widgets={
@@ -89,4 +89,4 @@ class TaskModelForm(StyleFormMixing, forms.ModelForm):
 class TaskDetailModelForm(StyleFormMixing, forms.ModelForm):
     class Meta:
         model =  TaskDetail
-        fields = ['priority','notes']
+        fields = ['priority','notes','asset']

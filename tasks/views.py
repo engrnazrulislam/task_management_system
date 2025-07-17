@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from tasks.forms import TaskModelForm, TaskDetailModelForm
-from tasks.models import Employee, Task, TaskDetail, Project
+from tasks.models import Task, TaskDetail, Project
 from datetime import date
 from django.db.models import Q, Count, Max, Min, Avg
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test, login_required, permission_required
+from django.contrib.auth.models import User
 # Create your views here.
 
 def is_Manager(user):
@@ -52,10 +53,13 @@ def manager_dashboard(request):
     elif type == "all" :
         base_query.all()
 
+    # print(tasks)
+
     context ={
         "tasks": tasks,
         "counts": counts
     }
+    
     return render(request,'dashboard/manager_dashboard.html',context)
 
 # CRUD
@@ -71,14 +75,14 @@ def employee_dashboard(request):
 @login_required
 @permission_required('tasks.add_task', login_url = 'no_permission')
 def create_task(request):
-    employees=Employee.objects.all()
+    employees=User.objects.all()
     task_form = TaskModelForm() # For GET
     task_detail_form = TaskDetailModelForm() # GET operation
 
     if request.method == 'POST':
         # form = TaskForm(request.POST, employees=employees) # For Django Basic Form POST
         task_form = TaskModelForm(request.POST) # For Django Model Form
-        task_detail_form = TaskDetailModelForm(request.POST)
+        task_detail_form = TaskDetailModelForm(request.POST, request.FILES)
         if task_form.is_valid() and task_detail_form.is_valid():
             """ For Django Model Form """
             task = task_form.save()
@@ -218,5 +222,11 @@ def view_task(request):
 
     projects=Project.objects.annotate(num_task=Count('tasks')).order_by('num_task')
     return render(request,'show_task.html',{'projects':projects})
+
+@login_required
+@permission_required('tasks.view_task', login_url='no_permission')
+def task_details(request, task_id):
+    task = Task.objects.get(id=task_id)
+    return render(request, 'task_details.html',{'task':task})
 
 
