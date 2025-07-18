@@ -7,6 +7,7 @@ from django.db.models import Q, Count, Max, Min, Avg
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test, login_required, permission_required
 from django.contrib.auth.models import User
+from users.views import is_admin
 # Create your views here.
 
 def is_Manager(user):
@@ -227,6 +228,25 @@ def view_task(request):
 @permission_required('tasks.view_task', login_url='no_permission')
 def task_details(request, task_id):
     task = Task.objects.get(id=task_id)
-    return render(request, 'task_details.html',{'task':task})
+    status_choices = Task.STATUS_CHOICES
+    if request.method == 'POST':
+        selected_status = request.POST.get('task_status')
+        task.status = selected_status
+        task.save()
+        return redirect('task_details', task.id)
+    return render(request, 'task_details.html',{'task':task, 'status_choices':status_choices})
 
 
+# @login_required
+# @permission_required('tasks.view_task',login_url='no_permission')
+# def change_task(request):
+@login_required
+def dashboard(request):
+    if is_Manager(request.user):
+        return redirect('manager_dashboard')
+    elif is_Employee(request.user):
+        return redirect('user_dashboard')
+    elif is_admin(request.user):
+        return redirect('admin_dashboard')
+    
+    return redirect('no_permission')

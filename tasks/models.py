@@ -54,7 +54,7 @@ class TaskDetail(models.Model):
         (LOW,'Low')
     )
     # for work with images
-    asset = models.ImageField(upload_to='asset_tasks', blank=True, null=True)
+    asset = models.ImageField(upload_to='tasks_asset', blank=True, null=True, default='tasks_asset/default_img.png')
     # assigned_to=models.CharField(max_length=250)
     priority=models.CharField(max_length=1,choices=PRIORITY_OPTIONS,default=LOW)
     # std_id = models.CharField(max_length=200, primary_key=True) # define customized primary key
